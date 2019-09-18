@@ -1,4 +1,4 @@
-# mod_auth_form sample
+# Apache httpd mod_auth_form sample
 ## Putting HTTPS and a pleasant login page backed by LDAP in front of a webapp that can't do network auth.
 
 An example of how to use mod_auth_form with an LDAP backend, and proxying (most) requests to
