@@ -1,34 +1,10 @@
-mod_auth_form sample
-==========
-A sample page for how to use mod_auth_form in Apache 2.4+ under Ubuntu.
-It uses some javascript to detect if a login has failed to display a friendly message to the user.
+# mod_auth_form sample
+## Putting HTTPS and a pleasant login page backed by LDAP in front of a webapp that can't do network auth.
 
-### Installation 
-1. Enable the required mods in Apache
+An example of how to use mod_auth_form with an LDAP backend, and proxying (most) requests to
+another application. This example requires the user be a member of one of a few groups.
+We are using HTTPS and the session cookie is encrypted. The logout URI of the proxied
+application is intercepted and used to logout the user. The login page and stylesheet are
+hosted in a fake path (`/httpd_auth/`) to make sure their names don't clash with the proxied
+app.
 
-        sudo a2enmod session
-        sudo a2enmod session_cookie
-        sudo a2enmod request
-        sudo a2enmod auth_form
-        
-2. Create a folder ```/var/www/login``` and copy index.html and css to that folder
-3. Create a password-file with ```htpasswd -c /etc/apache2/passwords testuser```
-4. Modify the Directory-tag for the DocumentRoot to contain the follow in your apache-config (```/etc/apache2/sites-enabled/000-default.conf```) 
-
-        <Directory /var/www/>
-                AuthFormProvider file
-                AuthName "authenticationform"
-                AuthType form
-                AuthUserFile /etc/apache2/passwords
-                ErrorDocument 401 /login/index.html
-                Session On
-                SessionCookieName session path=/
-        </Directory>
- 
-5. Add a tag for each URL that needs to be protected by the login to the same file
-
-        <Directory /var/www/protected_folder>
-                Require valid-user
-        </Directory>
-
-6. Restart Apache with ```sudo /etc/init.d/apache2 restart```
