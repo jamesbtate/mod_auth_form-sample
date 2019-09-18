@@ -1,0 +1,34 @@
+<html>
+        <head>
+                <title>Login required</title>
+                <link rel="stylesheet" type="text/css" href="/httpd_auth/login_style.css" />
+                <script type="text/javascript">
+                        function init() {
+                                if (localStorage.getItem("tryLogin")) {
+                                        document.getElementById("error").className += "show";
+                                        localStorage.removeItem("tryLogin");
+                                }
+                                document.getElementById("password").focus();
+                        }
+
+                        function tryLogin() {
+                                localStorage.setItem("tryLogin", true);
+                        }
+                </script>
+        </head>
+        <body onload="init()">
+                <div id="content">
+                        <p id="error">Authentication Failed</p>
+                        <div id="card">
+                                <h1>Netdisco</h1>
+                                <h3>Please login using appadm credentials.</h3>
+                                <form method="POST" action="/httpd_auth/dologin.html" onsubmit="tryLogin()">
+                                        <label for="username">Username</label><input type="text" id="username" name="httpd_username" value="" />
+                                        <label for="password">Password</label><input type="password" id="password" name="httpd_password" value="" />
+                                        <input type="submit" name="login" value="Login" />
+                                </form>
+
+                        </div>
+                </div>
+        </body>
+</html>
